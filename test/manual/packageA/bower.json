@@ -1,6 +1,7 @@
 {
     "main": [
         "index.js",
-        "index.css"
+        "index.css",
+        "index.json"
     ]
 }

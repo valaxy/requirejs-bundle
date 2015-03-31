@@ -1,9 +1,22 @@
 define(function (require) {
 	var path = require('path')
 
+	var getRequirePathString = function (modulePath, suffix) {
+		switch (suffix) {
+			case 'js':
+				return modulePath
+			case 'json':
+				return suffix + '!' + modulePath + '.json'
+			default:
+				return suffix + '!' + modulePath
+		}
+	}
 
-	var addModule = function (bundle, modulePath, suffix, value) {
-		var blocks = modulePath.split(path.sep)
+	var addModule = function (bundle, module, value) {
+		var suffix = module.suffix
+		var moduleName = module.name.slice(0, module.name.length - suffix.length - 1)
+
+		var blocks = moduleName.split(path.sep)
 		var current = bundle
 		for (var i in blocks) {
 			var block = blocks[i]
@@ -25,10 +38,11 @@ define(function (require) {
 			var cleanModulePath = modulePath.slice(0, modulePath.length - extname.length)
 			var suffix = extname.slice(1)
 
-			reqedPaths.push((suffix == 'js' ? '' : suffix + '!') + cleanModulePath)
+			reqedPaths.push(getRequirePathString(cleanModulePath, suffix))
 			modules.push({
 				path: cleanModulePath,
-				suffix: suffix
+				suffix: suffix,
+				name: names[i]
 			})
 		}
 		return {
@@ -44,7 +58,7 @@ define(function (require) {
 		req(requireModules.reqedPaths, function () {
 			for (var i = 0; i < arguments.length; i++) {
 				var value = arguments[i]
-				addModule(bundle, requireModules.modules[i].path, requireModules.modules[i].suffix, value)
+				addModule(bundle, requireModules.modules[i], value)
 			}
 			done(bundle)
 		})
@@ -52,6 +66,7 @@ define(function (require) {
 
 	return {
 		load: function (name, req, onload, config) {
+			console.log(name)
 			req(['json!' + path.join(name, 'bower.json')], function (bower) {
 				if (typeof bower.main == 'string') {
 					bower.main = [bower.main]
