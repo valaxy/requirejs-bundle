@@ -1,0 +1,23 @@
+{
+  "name": "requirejs-bundle",
+  "version": "0.0.0",
+  "homepage": "https://github.com/valaxy/requirejs-bundle",
+  "authors": [
+    "tianyuzou <valaxy@qq.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.16",
+    "requirejs-html": "~1.2.0",
+    "require-css": "~0.1.8",
+    "requirejs-plugins": "~1.0.3",
+    "path": "valaxy/path"
+  }
+}

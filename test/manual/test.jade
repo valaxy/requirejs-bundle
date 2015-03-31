@@ -1,0 +1,23 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        title test
+    body
+
+        script(src="../../bower_components/requirejs/require.js")
+
+        // startup
+        script.
+            require.config({
+                baseUrl: '../../',
+                paths: {
+                    text: 'bower_components/requirejs-text/text',
+                    json: 'bower_components/requirejs-plugins/src/json',
+                    css: 'bower_components/require-css/css.min',
+                    path: 'bower_components/path/path'
+                }
+            })
+            require(['test/manual/test'], function (test) {
+                test.init()
+            })
