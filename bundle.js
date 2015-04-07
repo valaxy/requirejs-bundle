@@ -29,6 +29,8 @@ define(function (require) {
 		current[suffix] = value
 	}
 
+	// require('file.suffix') -> require('suffix!file')
+	// use other plugin to really load
 	var getReqModules = function (bundlePath, names) {
 		var reqedPaths = []
 		var modules = []
@@ -51,22 +53,28 @@ define(function (require) {
 		}
 	}
 
-	var requireModules = function (req, bundlePath, names, done) {
+	var requireModules = function (req, bundlePath, names, done, libBaseUrl) {
 		var bundle = {}
 		var requireModules = getReqModules(bundlePath, names)
 
 		req(requireModules.reqedPaths, function () {
-			for (var i = 0; i < arguments.length; i++) {
-				var value = arguments[i]
-				addModule(bundle, requireModules.modules[i], value)
+			if (arguments.length == 1) {
+				done(arguments[0])
+			} else {
+				for (var i = 0; i < arguments.length; i++) {
+					var value = arguments[i]
+					addModule(bundle, requireModules.modules[i], value)
+				}
+				done(bundle)
 			}
-			done(bundle)
 		})
 	}
 
 	return {
 		load: function (name, req, onload, config) {
-			console.log(name)
+			var myconfig = config['valaxy/requirejs-bundle']
+			var libBaseUrl = myconfig ? myconfig.libBaseUrl || '.' : '.'
+			name = path.join(libBaseUrl, name)
 			req(['json!' + path.join(name, 'bower.json')], function (bower) {
 				if (typeof bower.main == 'string') {
 					bower.main = [bower.main]
