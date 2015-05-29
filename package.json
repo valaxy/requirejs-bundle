@@ -1,0 +1,25 @@
+{
+  "name": "requirejs-bundle",
+  "version": "1.0.0",
+  "description": "> This is under development, said on 2015/4/7",
+  "main": "bundle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/valaxy/requirejs-bundle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/valaxy/requirejs-bundle/issues"
+  },
+  "homepage": "https://github.com/valaxy/requirejs-bundle",
+  "dependencies": {
+    "minimatch": "^2.0.4"
+  }
+}
